@@ -12,25 +12,29 @@ class HamKayitController extends Controller
     {
         $file = $request->dosya;
         
-        if (!$file->isValid()) {
-            return "error";
+        if ($file == null || !$file->isValid() || $request->isim == null) {
+            $kayitlar = HamKayit::all();
+            return view('sayfalar.hamkayit_listele',['kayitlar'=> $kayitlar, 'yukleme'=>false]);  
         }
         
         $hamKayit = new HamKayit;
 
         $hamKayit->isim = $request->isim;
         $hamKayit->tip = $request->tip;
-        $hamKayit->uzunluk = 0;
+        $hamKayit->uzunluk = rand(30,60*60*2);
+
         $hamKayit->dosya = 'yukleniyor';
+        
         $hamKayit->save();
 
-        $path = $file->storeAs(
-            'ham_kayitlar/'.$hamKayit->tipisim(),$hamKayit->isim.'-'.$hamKayit->id.'.'.$file->extension(), 's3');
+        $filename = $hamKayit->id.".".$file->getClientOriginalExtension();
 
+
+        $path = $file->storeAs('ham_kayitlar/'.$hamKayit->tipisim(),$filename);
         $hamKayit->dosya = $path;
         $hamKayit->update();
-
-        $extension = $file->extension();
-        echo $extension;
+        
+        $kayitlar = HamKayit::all();
+        return view('sayfalar.hamkayit_listele',['kayitlar'=> $kayitlar, 'yukleme'=>true]);  
     }
 }

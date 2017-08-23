@@ -19,5 +19,7 @@
     
         @include('layouts.partials._footer')
     
+        @yield('footer')
+        
     </body>
 </html>

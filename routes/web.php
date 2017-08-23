@@ -16,4 +16,9 @@ Route::get('/hamkayit/yukle', function () {
     return view('sayfalar.hamkayit_yukle',['tipler'=>$tipler]);
 })->name('hamkayit/yukle');
 
+Route::get('/hamkayit',function(){
+    $kayitlar = App\HamKayit::all();
+    return view('sayfalar.hamkayit_listele',['kayitlar'=>$kayitlar]);
+})->name('hamkayit/listele');
+
 Route::post("/hamkayit/yukle", "HamKayitController@store");

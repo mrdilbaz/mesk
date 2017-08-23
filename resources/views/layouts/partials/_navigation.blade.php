@@ -13,7 +13,7 @@
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                 <a class="dropdown-item" href="{!! route('hamkayit/yukle') !!}">Yeni Yükle</a>
-                <a class="dropdown-item" href="#">Listele</a>
+                <a class="dropdown-item" href="{!! route('hamkayit/listele') !!}">Listele</a>
                 </div>
             </li>
         </ul>
