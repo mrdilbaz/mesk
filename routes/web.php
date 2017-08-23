@@ -11,7 +11,9 @@
 |
 */
 
-Route::get('/ham_kayit/yukle', function () {
+Route::get('/hamkayit/yukle', function () {
     $tipler = App\HamKayitTip::all()->pluck('tip','id');
     return view('sayfalar.hamkayit_yukle',['tipler'=>$tipler]);
-})->name('ham_kayit_yukle');
+})->name('hamkayit/yukle');
+
+Route::post("/hamkayit/yukle", "HamKayitController@store");

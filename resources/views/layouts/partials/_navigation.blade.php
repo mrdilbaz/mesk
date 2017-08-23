@@ -12,7 +12,7 @@
                 Ham Kayıtlar
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                <a class="dropdown-item" href="{!! route('ham_kayit_yukle') !!}">Yeni Yükle</a>
+                <a class="dropdown-item" href="{!! route('hamkayit/yukle') !!}">Yeni Yükle</a>
                 <a class="dropdown-item" href="#">Listele</a>
                 </div>
             </li>

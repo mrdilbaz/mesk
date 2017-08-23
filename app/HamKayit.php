@@ -9,7 +9,7 @@ class HamKayit extends Model
     //
     protected $guarded = [];
     
-    public function tip(){
-        return $this->belongsTo('App\HamKayitTip','tip');
+    public function tipisim(){
+        return HamKayitTip::find($this->tip)->tip;
     }
 }
