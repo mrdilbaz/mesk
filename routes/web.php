@@ -11,7 +11,7 @@
 |
 */
 
-Route::get('/hamKayitYukle', function () {
+Route::get('/ham_kayit/yukle', function () {
     $tipler = App\HamKayitTip::all()->pluck('tip','id');
-    return view('hamKayitYukle',['tipler'=>$tipler]);
-});
+    return view('sayfalar.hamkayit_yukle',['tipler'=>$tipler]);
+})->name('ham_kayit_yukle');

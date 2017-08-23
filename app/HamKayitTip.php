@@ -7,5 +7,5 @@ use Illuminate\Database\Eloquent\Model;
 class HamKayitTip extends Model
 {
 
-    protected $table = 'ham_kayit_tipler';
+    //protected $table = 'ham_kayit_tipler';
 }
