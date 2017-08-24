@@ -21,7 +21,7 @@
       <td class='text-right'>{{$kayit->saniye()}}</td>
       <td class='text-right'>
         <div class='mx-auto'>
-        <button class='btn btn-outline-primary btn-sm'>Düzenle</button>
+        <a href='hamkayit/duzenle/{{$kayit->id}}'  class='btn btn-outline-primary btn-sm'>Düzenle</a>
         <button class='btn btn-outline-danger btn-sm'>Sil</button>
         </div>
       </td>

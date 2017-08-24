@@ -12,7 +12,7 @@ use Exception;
 class HamKayitController extends Controller
 {
     public function store(Request $request)
-    {
+    {   
         if ($request->isim == null) {
             $tipler = HamKayitTip::all()->pluck('tip','id');
             return view('sayfalar.hamkayit_yukle', ['tipler'=> $tipler, 'error'=>'İsim Alanı boş bırakılamaz.']);
