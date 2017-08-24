@@ -13,10 +13,9 @@
     <script>
         var wavesurfer = WaveSurfer.create({
             container: '#waveform',
-            waveColor: 'violet',
+            waveColor: 'gray',
             progressColor: 'purple'
         });
-
-        wavesurfer.load('{{ $kayit->dosya }}');
+        wavesurfer.load('{{ asset($kayit->dosya) }}');
     </script>
 @endsection

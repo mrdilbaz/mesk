@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class HamKayit extends Model
 {
@@ -26,5 +27,9 @@ class HamKayit extends Model
             $string = $dakika.":".sprintf("%'.02d\n",$san);
         }
         return $string;
+    }
+
+    public function dosyaAdi(){
+           return Storage::url('public/ham_kayitlar/'.$this->tipisim().'/'.$this->dosya);
     }
 }

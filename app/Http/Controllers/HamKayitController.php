@@ -44,7 +44,7 @@ class HamKayitController extends Controller
         $filename = $hamKayit->id.".".$file->getClientOriginalExtension();
 
 
-        $path = $file->storeAs('ham_kayitlar/'.$hamKayit->tipisim(), $filename);
+        $path = $file->storeAs('public/ham_kayitlar/'.$hamKayit->tipisim(), $filename);
         $hamKayit->dosya = $path;
         $hamKayit->update();
         
