@@ -14,6 +14,8 @@
     <body id="page-top" class="index">
     
         @include('layouts.partials._navigation')
+        
+        @include('layouts.partials._warning')
 
         @yield('content')
     

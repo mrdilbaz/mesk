@@ -2,21 +2,6 @@
 
 @section('content')
   <div class='container'>
-
-    @isset($yukleme)
-    
-        @if ($yukleme)
-            <div class="alert alert-success fade show" role="alert">
-                <strong>Yeni Kayıt Eklendi!</strong> Yüklenen kayıdı listeden seçip düzenleyebilirsiniz.
-            </div>
-        @else
-            <div class="alert alert-danger fade show" role="alert">
-                <strong>Bir sorun oluştu!</strong> Kayıt yüklenemedi.
-            </div>
-        @endif
-
-    @endisset
-
   <table class="table table-hover table-border">
   <thead class="table-info">
     <tr>
@@ -45,13 +30,4 @@
 </tbody>
 </table>
 </div>
-@endsection
-
-@section('footer')
-@parent
-    <script>
-        setTimeout(function(){
-            $('.alert').alert('close');
-        }, 3000);
-    </script>
 @endsection

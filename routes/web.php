@@ -22,3 +22,5 @@ Route::get('/hamkayit',function(){
 })->name('hamkayit/listele');
 
 Route::post("/hamkayit/yukle", "HamKayitController@store");
+
+Route::get('/',function(){return view('layouts.master');});
