@@ -10,8 +10,13 @@ class HamKayit extends Model
     //
     protected $guarded = [];
     
-    public function tipisim(){
-        return HamKayitTip::find($this->tip)->tip;
+    public function tipisim($forUrl = false){
+
+        $string = HamKayitTip::find($this->tip)->tip;
+        if($forUrl)
+            $string = $string == 'Meşk' ? 'Mesk' : $string;
+        return $string;
+    
     }
 
     public function saniye(){

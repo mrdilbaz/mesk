@@ -4,6 +4,7 @@
         <meta charset="utf-8">
         <meta name="description" content="Meşk arşivi">
         <meta name="author" content="Derviş Mehmed">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
         <title>Meşk</title>
         <!-- Bootstrap Core CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">

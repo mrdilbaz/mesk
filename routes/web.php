@@ -29,4 +29,6 @@ Route::get('hamkayit/duzenle/{id}',function($id){
 
 Route::post("/hamkayit/yukle", "HamKayitController@store");
 
+Route::post("/hamkayit/sil",'HamKayitController@delete')->name('hamkayit/sil');
+
 Route::get('/',function(){return view('layouts.master');});

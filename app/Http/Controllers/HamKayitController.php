@@ -44,12 +44,25 @@ class HamKayitController extends Controller
         $filename = $hamKayit->id.".".$file->getClientOriginalExtension();
 
 
-        $path = $file->storeAs('public/ham_kayitlar/'.$hamKayit->tipisim(), $filename);
+        $path = $file->storeAs('public/ham_kayitlar/'.$hamKayit->tipisim(true), $filename);
         $hamKayit->dosya = $path;
         $hamKayit->update();
         
         $kayitlar = HamKayit::all();
         Storage::delete($tmpPath);
         return view('sayfalar.hamkayit_listele', ['kayitlar'=> $kayitlar, 'success'=>"Kayıt başarıyla eklendi."]);
+    }
+
+
+    public function delete(Request $request){
+        
+        if($request->kayit_id == null){
+            return response(['error'=>true]);
+        }
+
+        $kayit = HamKayit::find($request->kayit_id);
+        Storage::delete($kayit->dosya);
+        $kayit->delete();
+        return response(['error'=>false]);
     }
 }
