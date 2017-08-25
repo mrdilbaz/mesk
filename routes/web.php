@@ -25,7 +25,7 @@ Route::get('hamkayit/duzenle/{id}',function($id){
     $kayit = App\HamKayit::find($id);
     return view('sayfalar.hamkayit_duzenle',['kayit'=>$kayit]);
 
-});
+})->name('hamkayit/duzenle');
 
 Route::post("/hamkayit/yukle", "HamKayitController@store");
 

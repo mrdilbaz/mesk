@@ -3,10 +3,10 @@
 return [
     'default_disk' => 'local',
 
-    'ffmpeg.binaries' => '/usr/local/bin/ffmpeg',
+    'ffmpeg.binaries' => '/Users/mrdilbaz/ffmpeg',
     'ffmpeg.threads'  => 12,
 
-    'ffprobe.binaries' => '/usr/local/bin/ffprobe',
+    'ffprobe.binaries' => '/Users/mrdilbaz/ffprobe',
 
     'timeout' => 3600,
 ];
