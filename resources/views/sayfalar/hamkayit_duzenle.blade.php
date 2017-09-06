@@ -127,10 +127,21 @@
             });
 
             wavesurfer.enableDragSelection({drag:false});
+
+
+            currentZoom = 1072 / wavesurfer.getDuration();
+            minZoom = currentZoom;
         });
 
 
         var regionlist = [];
+        
+
+
+        var currentZoom = 0.1;
+        var minZoom = 0.1;
+        var zoomSensitivity = 0.5;
+
 
         wavesurfer.on('region-created',function(region){
             regionlist.push(region);
@@ -152,6 +163,7 @@
             $('.close').click(function(event){
                 event.stopPropagation();
             });
+
         });
 
 
@@ -182,8 +194,6 @@
         }
 
 
-        var currentZoom = 0.1;
-        var zoomSensitivity = 0.5;
 
         function zoomIn(){
             currentZoom = Math.min(currentZoom + zoomSensitivity,50);
@@ -191,7 +201,7 @@
         }
 
         function zoomOut(){
-            currentZoom = Math.max(currentZoom - zoomSensitivity,0.1);
+            currentZoom = Math.max(currentZoom - zoomSensitivity,minZoom);
             wavesurfer.zoom(currentZoom);
         }
     </script>
