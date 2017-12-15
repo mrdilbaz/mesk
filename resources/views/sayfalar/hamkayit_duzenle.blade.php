@@ -1,112 +1,111 @@
+ @extends('layouts.master') @section('content')
 
-@extends('layouts.master')
+<div class='container'>
 
-@section('content')
+	<div class='form-group'>
+		<input class="form-control form-control-lg kayit-isim" type="text" name='isim' value='{{$kayit->isim}}'>
+	</div>
+	<div class='row justify-content-end no-gutters pb-2'>
+		<div class='mr-auto'>
 
-  <div class='container'>
-  
-    <div class='form-group'><input class="form-control form-control-lg" type="text" name='isim' value='{{$kayit->isim}}'></div>    
-    <div class='row justify-content-end no-gutters pb-2'>
-        <div class='mr-auto'>
-        
-            <button id='playButton' style='width:100px;' class="btn btn-success btn-sm" onclick="PlayPause()" >
-                <i class="fa fa-play"></i>
-                Oynat
-            </button>
+			<button id='playButton' style='width:100px;' class="btn btn-success btn-sm" onclick="PlayPause()">
+				<i class="fa fa-play"></i>
+				Oynat
+			</button>
 
-            <button id='pauseButton' style='width:100px;display:none' class="btn btn-warning btn-sm"  onclick="PlayPause()" >
-                <i class="fa fa-pause"></i>
-                Duraklat
-            </button>
+			<button id='pauseButton' style='width:100px;display:none' class="btn btn-warning btn-sm" onclick="PlayPause()">
+				<i class="fa fa-pause"></i>
+				Duraklat
+			</button>
 
-        </div>
-        <div class='px-2'>
-            <button class='btn btn-info btn-sm' style='width:80px;' onclick="zoomIn()">
-                <i class="fa fa-search-plus" aria-hidden="true"></i>
-                Yaklaş
-            </button>
-        </div>
-        <div class=''>
-            <button class='btn btn-info btn-sm' style='width:80px;' onclick="zoomOut()">
-                <i class="fa fa-search-minus" aria-hidden="true"></i>
-                Uzaklaş
-            </button>
-        </div>
-    </div>
-    <div class='container' style='height:150px'>
-        <div id='wave-loading' style='position:absolute;text-align:center;width:100%;top:2.5em'><h2 class='text-muted font-italic'>Yükleniyor</h2></div>
-        <div id='waveform'></div>
-        <div id="waveform-timeline"></div>
-    </div>
-    <div class='lead text-center pt-5 pb-3'><h4 class="display-4">Parçalar</h4></div>
-    <div id='parca-listesi' class='pt-3 jumbotron'>
-        <div class='row mb-3 pb-2 text-muted' style='border-bottom:1px dashed grey' id='headers'>
-            <div class='col-1 text-center'>#</div>
-            <div class='col-1'>
-                Başlangıç
-            </div>
-            <div class='col-1'>
-                Bitiş
-            </div>
-            <div class='col-5'>
-                Parça Adı
-            </div>
-            <div class='col-2'>
-                
-            </div>
-            <div class='col-2'>
-                
-            </div>
-        </div>
-        
+		</div>
+		<div class='px-2'>
+			<button class='btn btn-info btn-sm' style='width:80px;' onclick="zoomIn()">
+				<i class="fa fa-search-plus" aria-hidden="true"></i>
+				Yaklaş
+			</button>
+		</div>
+		<div class=''>
+			<button class='btn btn-info btn-sm' style='width:80px;' onclick="zoomOut()">
+				<i class="fa fa-search-minus" aria-hidden="true"></i>
+				Uzaklaş
+			</button>
+		</div>
+	</div>
+	<div class='container' style='height:150px'>
+		<div id='wave-loading' style='position:absolute;text-align:center;width:100%;top:2.5em'>
+			<h2 class='text-muted font-italic'>Yükleniyor</h2>
+		</div>
+		<div id='waveform'></div>
+		<div id="waveform-timeline"></div>
+	</div>
+	<div class='row lead text-center pt-5 pb-3'>
+		<div class='col-10 pr-10'>
+			<h4 class="display-4">Parçalar</h4>
+		</div>
+		<div class='col-2 pt-2'>
+			<button class='btn btn-primary btn-lg' onclick='Save()'>Kaydet</button>
+		</div>
+	</div>
+	<div id='parca-listesi' class='pt-3 jumbotron'>
+		<div class='row mb-3 pb-2 text-muted' style='border-bottom:1px dashed grey' id='headers'>
+			<div class='col-1 text-center'>#</div>
+			<div class='col-2'>
+				Başlangıç
+			</div>
+			<div class='col-2'>
+				Bitiş
+			</div>
+			<div class='col-5'>
+				Parça Adı
+			</div>
+			<div class='col-2'>
 
-        <div class='row pb-3' id='example-row' style='line-height:38px;display:none' >
-            <div class='col-1'><span class='region-badge'>1</span></div>
-            <div class='col-1'>
-                <input type='text' class='form-control' />
-            </div>
-            <div class='col-1'>
-                <input type='text' class='form-control' />
-            </div>
-            <div class='col-6'>
-                <input type='text' class='form-control' />
-            </div>
-            <div class='col-1 text-left'>
-            
-            <button  style='width:75px;' class="btn btn-success btn-sm" onclick="" >
-                <i class="fa fa-play"></i>
-                Oynat
-            </button>
-            <button  style='width:75px;display:none' class="btn btn-warning btn-sm"  onclick="" >
-                <i class="fa fa-pause"></i>
-                Duraklat
-            </button>
-            
-            </div>
-            <div class='col-1 text-right'>
-                <button class='btn btn-info btn-sm'>Düzenle</button>
-            </div>
-            <div class='col-1'>
-                <button class='btn btn-outline-danger btn-sm'>Sil</button>
-            </div>
-        </div>
+			</div>
+			<div class='col-2'>
 
-        
-        
-    </div>
-
-@endsection
+			</div>
+		</div>
 
 
-@section('footer')
-    @parent
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/wavesurfer.js/1.4.0/wavesurfer.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/wavesurfer.js/1.2.3/plugin/wavesurfer.timeline.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/wavesurfer.js/1.2.3/plugin/wavesurfer.regions.min.js"></script>
+		<div class='row pb-3' id='example-row' style='line-height:38px;display:none'>
+			<div class='col-1'>
+				<span class='region-badge'>1</span>
+			</div>
+			<div class='col-2'>
+				<input type='text' readonly class='form-control baslangic' />
+			</div>
+			<div class='col-2'>
+				<input type='text' readonly class='form-control bitis' />
+			</div>
+			<div class='col-5'>
+				<input type='text' class='form-control isim' />
+			</div>
+			<div class='col-1 text-left'>
+				<button style='width:75px;' class="btn btn-success btn-sm" onclick="">
+					<i class="fa fa-play"></i>
+					<i class="fa">/</i>
+					<i class="fa fa-pause"></i>
+				</button>
+			</div>
 
-    <script>
-        
-        var wavesurfer = WaveSurfer.create({
+			<div class='col-1'>
+				<button class='btn btn-outline-danger btn-sm'>Sil</button>
+			</div>
+		</div>
+
+
+
+
+
+	</div>
+	@endsection @section('footer') @parent
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/wavesurfer.js/1.4.0/wavesurfer.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/wavesurfer.js/1.2.3/plugin/wavesurfer.timeline.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/wavesurfer.js/1.2.3/plugin/wavesurfer.regions.min.js"></script>
+
+	<script>
+		var wavesurfer = WaveSurfer.create({
             container: '#waveform',
             waveColor: '#4A9B62',
             progressColor: '#0D5C25',
@@ -153,7 +152,7 @@
             
             $(region.element).append("<button type='button' onclick='deleteregion("+regionId+")' class='close' aria-label='Close'><span aria-hidden='true'>&times;</span></button>");
             
-            var row = $('#example-row').clone().appendTo('#parca-listesi');
+            var row = $('#example-row').clone().attr("id","region-"+region.id).appendTo('#parca-listesi');
 
             row.show();
             row.find('span.region-badge').html(regionId);
@@ -165,6 +164,68 @@
             });
 
         });
+
+        wavesurfer.on("region-update-end",function(region){
+            var date = new Date(null);
+            date.setSeconds(region.start);        
+            $(region.row).find('.baslangic').val(date.toISOString().substr(11, 8));
+            date.setSeconds(region.end);
+            $(region.row).find('.bitis').val(date.toISOString().substr(11, 8));
+
+            $(region.row).find(".btn-success").click(function(){
+                if(wavesurfer.isPlaying()){
+                    wavesurfer.pause();
+                } else {
+                    region.play();
+                }
+            });
+
+            $(region.row).find(".btn-outline-danger").click(function(){
+                var rid = region.attributes["id"]
+                deleteregion(rid);
+            });
+        });
+
+		function Save(){
+			
+			var validate = true;
+			$('.isim:visible').each(function(){
+				if($(this).val() == ""){
+					alert("Parça isimleri boş olamaz.");
+					
+					validate = false;
+				}
+			});
+
+			if(!validate)
+				return;
+
+			var parcalar = [];	
+
+			$.each(regionlist,function(key,region){
+				var parca = {};
+				var row = $(region.row);
+				
+				parca.isim = row.find('.isim').val();
+				parca.baslangic = region.start;
+				parca.bitis = region.end;
+				parcalar.push(parca);
+			});
+
+
+			var inputData = {};
+			inputData.parcalar = parcalar;
+			inputData.hamkayit_id = '{{$kayit->id}}';
+			inputData.hamkayit_isim = $('.kayit-isim').val();
+			inputData._token = "{{ csrf_token() }}";
+			
+			
+
+			$.post( "{{route('hamkayit/parcala')}}",inputData, function( data ) {
+				console.log(data);
+      		});
+			
+		}
 
 
         
@@ -191,6 +252,9 @@
         function deleteregion(regionIndex){
             $("region[data-region-id="+regionIndex+"]").hide();
             regionlist[regionIndex-1].row.hide();
+            regionlist[regionIndex-1].remove();
+            if(Object.keys(wavesurfer.regions.list).length == 0)
+                regionlist = [];
         }
 
 
@@ -204,35 +268,33 @@
             currentZoom = Math.max(currentZoom - zoomSensitivity,minZoom);
             wavesurfer.zoom(currentZoom);
         }
-    </script>
+	</script>
 
 
 
-    <style>
-    .region-badge{
-        border:2px solid white;
-        border-radius:40px;
-        width:45px;
-        height:45px;
-        background:#0D3F4D;
-        line-height:40px;
-        text-align:center;
-        font-weight:bolder;
-        color:#9ABAC3;
-        left:50%;
-        position:absolute;
-        margin-left:-22.5px;
-        top:50%;
-        margin-top:-22.5px;
-        font-size:24px;
-    }
+	<style>
+		.region-badge {
+			border: 2px solid white;
+			border-radius: 40px;
+			width: 45px;
+			height: 45px;
+			background: #0D3F4D;
+			line-height: 40px;
+			text-align: center;
+			font-weight: bolder;
+			color: #9ABAC3;
+			left: 50%;
+			position: absolute;
+			margin-left: -22.5px;
+			top: 50%;
+			margin-top: -22.5px;
+			font-size: 24px;
+		}
 
-    .region-close{
+		.region-close {}
 
-    }
-
-    .wavesurfer-handle{
-        border-left:2px dashed #407382;
-    }
-    </style>
-@endsection
+		.wavesurfer-handle {
+			border-left: 2px dashed #407382;
+		}
+	</style>
+	@endsection
