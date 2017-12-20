@@ -11,6 +11,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call(UsersTableSeeder::class);
+        DB::table('ham_kayit_tipler')->insert([['tip' => "Meşk"],['tip' => "Zikrullah"],['tip' => "Konser"],['tip' => "Diğer"]]);
     }
 }

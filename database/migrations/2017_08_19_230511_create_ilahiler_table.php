@@ -22,6 +22,7 @@ class CreateIlahilerTable extends Migration
             $table->unsignedInteger('makam');
             $table->unsignedInteger('uzunluk');
             $table->unsignedInteger('ham_kayit');
+            $table->string('dosya');
             $table->timestamps();
         });
     }

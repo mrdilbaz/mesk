@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\HamKayit;
+use App\Ilahi;
 use App\HamKayitTip;
 use Exception;
 use FFMpeg;
@@ -68,11 +69,13 @@ class HamKayitController extends Controller
     {
         $kayit = HamKayit::find($request->hamkayit_id);
         $media = FFMpeg::open($kayit->dosya);
-        $return = array();
+        
         foreach($request->parcalar as $parca){
             $start = intval($parca["baslangic"]);
             $end = intval($parca["bitis"]);
             $name = $parca["isim"];
+            $dosya = "public/ilahiler/".$name."-".$kayit->id.".mp3";
+            $ilahiler = array();
             $media->addFilter(
                         new FFMpeg\Filters\Audio\AudioClipFilter(
                             FFMpeg\Coordinate\TimeCode::fromSeconds($start),
@@ -86,12 +89,21 @@ class HamKayitController extends Controller
                     ->inFormat(
                         new FFMpeg\Format\Audio\Mp3
                         )
-                    ->save("public/ilahiler/".$name."-".$kayit->id.".mp3");
+                    ->save($dosya);
+                    
+            
+            $ilahi = new Ilahi;
+            $ilahi->dosya = $dosya;
+            $ilahi->isim = $name;
+            $ilahi->ham_kayit = $kayit->id;
+            $ilahi->save();
 
-            array_push($return,["isim"=>$name,"uzunluk"=>($end - $start)]);
+            array_push($ilahiler,$ilahi);
+
         }
 
-        return response(['media' => $return]);
+        return view('sayfalar.ilahiler_duzenle', ['ilahiler' => $ilahiler, 'success' => "Kayıt başarıyla eklendi."]);
+
     }
 
 }
