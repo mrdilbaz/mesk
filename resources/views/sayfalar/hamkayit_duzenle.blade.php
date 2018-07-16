@@ -222,10 +222,13 @@
 			
 
 			$.post( "{{route('hamkayit/parcala')}}",inputData, function( data ) {
-				console.log(data);
+				var params = {};
+				params.ilahiler = data;
+				post_to_url("{!! route('hamkayit/goster') !!}",params,"post");
       		});
 			
 		}
+
 
 
         
@@ -267,7 +270,32 @@
         function zoomOut(){
             currentZoom = Math.max(currentZoom - zoomSensitivity,minZoom);
             wavesurfer.zoom(currentZoom);
-        }
+		}
+		
+
+		function post_to_url(path, params, method) {
+			method = method || "post";
+
+			var form = document.createElement("form");
+			form.setAttribute("method", method);
+			form.setAttribute("action", path);
+
+			for(var key in params) {
+				if(params.hasOwnProperty(key)) {
+					var hiddenField = document.createElement("input");
+					hiddenField.setAttribute("type", "hidden");
+					hiddenField.setAttribute("name", key);
+					hiddenField.setAttribute("value", params[key]);
+
+					form.appendChild(hiddenField);
+				}
+			}	
+
+			document.body.appendChild(form);
+			form.submit();
+		}
+
+
 	</script>
 
 

@@ -19,9 +19,11 @@ class HamKayitController extends Controller
             return view('sayfalar.hamkayit_yukle', ['tipler' => $tipler, 'error' => 'İsim Alanı boş bırakılamaz.']);
         }
         $file = $request->dosya;
+        
         $acceptedFileTypes = array('mp3', 'm4a', 'aif', 'wav');
 
         $extension = $file->getClientOriginalExtension();
+        
         if (!in_array($extension, $acceptedFileTypes)) {
             $tipler = HamKayitTip::all()->pluck('tip', 'id');
             return view('sayfalar.hamkayit_yukle', ['tipler' => $tipler, 'error' => 'Dosya türü uygun değil.']);
@@ -70,12 +72,14 @@ class HamKayitController extends Controller
         $kayit = HamKayit::find($request->hamkayit_id);
         $media = FFMpeg::open($kayit->dosya);
         
+        $ilahiler = array();
+
         foreach($request->parcalar as $parca){
             $start = intval($parca["baslangic"]);
             $end = intval($parca["bitis"]);
             $name = $parca["isim"];
             $dosya = "public/ilahiler/".$name."-".$kayit->id.".mp3";
-            $ilahiler = array();
+            
             $media->addFilter(
                         new FFMpeg\Filters\Audio\AudioClipFilter(
                             FFMpeg\Coordinate\TimeCode::fromSeconds($start),
@@ -102,7 +106,7 @@ class HamKayitController extends Controller
 
         }
 
-        return view('sayfalar.ilahiler_duzenle', ['ilahiler' => $ilahiler, 'success' => "Kayıt başarıyla eklendi."]);
+        return $ilahiler;
 
     }
 

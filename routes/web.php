@@ -10,6 +10,7 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+use Illuminate\Http\Request;
 
 Route::get('/hamkayit/yukle', function () {
     $tipler = App\HamKayitTip::all()->pluck('tip','id');
@@ -31,5 +32,12 @@ Route::post("/hamkayit/yukle", "HamKayitController@store");
 Route::post("/hamkayit/parcala", "HamKayitController@parcala")->name('hamkayit/parcala');
 
 Route::post("/hamkayit/sil",'HamKayitController@delete')->name('hamkayit/sil');
+
+Route::post("/hamkayit/goster", function(Request $request){
+    print_r($request->ilahiler);
+    return view("sayfalar.hamkayit_goster",["ilahiler"=>$request->ilahiler]);
+
+})->name('hamkayit/goster');
+
 
 Route::get('/',function(){return view('layouts.master');});
