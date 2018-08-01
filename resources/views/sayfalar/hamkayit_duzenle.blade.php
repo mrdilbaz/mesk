@@ -39,78 +39,103 @@
 		<div id='waveform'></div>
 		<div id="waveform-timeline"></div>
 	</div>
-	<div class='row lead text-center pt-5 pb-3'>
-		<div class='col-10 pr-10'>
-			<h4 class="display-4">Parçalar</h4>
+
+	<div class='row lead text-center align-items-center pt-5 pb-3'>
+		<div class='col-10'>
+			<h4 class="display-4" style="font-size:2.5rem !important">Parçalar</h4>
 		</div>
-		<div class='col-2 pt-2'>
-			<button class='btn btn-primary btn-lg' onclick='Save()'>Kaydet</button>
+		<div class='col text-right'>
+			<button class='btn btn-success' onclick='Add();'>
+				<i class="fa fa-plus" aria-hidden="true"></i>
+			Ekle</button>
 		</div>
 	</div>
-	<div id='parca-listesi' class='pt-3 jumbotron'>
-		<div class='row mb-3 pb-2 text-muted' style='border-bottom:1px dashed grey' id='headers'>
-			<div class='col-1 text-center'>#</div>
-			<div class='col-2'>
-				Başlangıç
-			</div>
-			<div class='col-2'>
-				Bitiş
-			</div>
-			<div class='col-5'>
-				Parça Adı
-			</div>
-			<div class='col-2'>
+	<div id='parca-listesi'>
+		
+		<div id='example-row' class="jumbotron" style="padding:3rem !important;display:none">
+
+			<div class='row'>
+				<div class='col'>
+					<label>İsim:</label>
+					<input type='text' class='form-control isim' />
+				</div>
+				<div class='col-2'>
+					<label>Başlangıç:</label>
+					<input type='text' class='form-control baslangic pre-disabled' value="00:00" />
+				</div>
+				<div class='col-2'>
+					<label>Bitiş:</label>
+					<input type='text' class='form-control bitis pre-disabled' value="00:00" />
+				</div>
 
 			</div>
-			<div class='col-2'>
 
+			<div class='row pb-4'>
+				<div class='col'>
+				<label>Makam:</label>
+					<input type='text' class='form-control makam' />
+					
+				</div>
+				<div class='col-5'>
+					<label>Güfte:</label>
+					<input type='text' class='form-control gufte' />
+				</div>
+				<div class='col-5'>
+					<label>Beste:</label>
+					<input type='text' class='form-control beste' />
+				</div>
 			</div>
+			
+
+			<div class="row justify-content-left">
+				<div class="col"></div>
+				<div class='col-2'>
+						<button class='btn btn-info btn-block'>Göster</button>
+				</div>
+				<div class='col-1'>
+						<button class='btn btn-outline-danger btn-block'>Sil</button>
+				</div>
+			</div>
+				
 		</div>
 
 
-		<div class='row pb-3' id='example-row' style='line-height:38px;display:none'>
-			<div class='col-1'>
-				<span class='region-badge'>1</span>
-			</div>
-			<div class='col-2'>
-				<input type='text' readonly class='form-control baslangic' />
-			</div>
-			<div class='col-2'>
-				<input type='text' readonly class='form-control bitis' />
-			</div>
-			<div class='col-5'>
-				<input type='text' class='form-control isim' />
-			</div>
-			<div class='col-1 text-left'>
-				<button style='width:75px;' class="btn btn-success btn-sm" onclick="">
-					<i class="fa fa-play"></i>
-					<i class="fa">/</i>
-					<i class="fa fa-pause"></i>
-				</button>
-			</div>
-
-			<div class='col-1'>
-				<button class='btn btn-outline-danger btn-sm'>Sil</button>
-			</div>
-		</div>
+		
 
 
 
 
 
 	</div>
+
+	<div class="row pb-2 pt-5">
+		<div class='col'>
+			<button class='btn btn-primary btn-block btn-bg' onclick='Save();'>
+				Kaydet</button>
+	</div>
+
+
+
+	
 	@endsection @section('footer') @parent
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/wavesurfer.js/1.4.0/wavesurfer.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/wavesurfer.js/1.2.3/plugin/wavesurfer.timeline.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/wavesurfer.js/1.2.3/plugin/wavesurfer.regions.min.js"></script>
 
 	<script>
+
+	    var currentZoom = 0.1;
+        var minZoom = 0.1;
+        var zoomSensitivity = 0.5;
+
+
 		var wavesurfer = WaveSurfer.create({
             container: '#waveform',
             waveColor: '#4A9B62',
             progressColor: '#0D5C25',
-            autoCenter:false,
-            minPxPerSec:0.1
+            autoCenter:true,
+            minPxPerSec:0.1,
+			pixelRatio:1
         });
 
         wavesurfer.load('{{ asset($kayit->dosya) }}');
@@ -125,43 +150,95 @@
                 container: '#waveform-timeline'
             });
 
-            wavesurfer.enableDragSelection({drag:false});
+            //wavesurfer.enableDragSelection({drag:false});
 
 
             currentZoom = 1072 / wavesurfer.getDuration();
             minZoom = currentZoom;
         });
 
+		function zoomIn(){
+            currentZoom = Math.min(currentZoom + zoomSensitivity,50);
+            wavesurfer.zoom(currentZoom);
+        }
 
-        var regionlist = [];
-        
+        function zoomOut(){
+            currentZoom = Math.max(currentZoom - zoomSensitivity,minZoom);
+            wavesurfer.zoom(currentZoom);
+		}
 
 
-        var currentZoom = 0.1;
-        var minZoom = 0.1;
-        var zoomSensitivity = 0.5;
+        var parcalar = [];
+		var currentStart = 0;
+		var initLength = 180;
+		var silence = 3;
 
 
-        wavesurfer.on('region-created',function(region){
-            regionlist.push(region);
-            region.update({attributes :{'id':regionlist.length}});
+		function zoomTo(rid){
+			var mid = (parcalar[rid].start + parcalar[rid].end) / 2;
+			currentZoom = 1072 / (parcalar[rid].end - parcalar[rid].start + 60);
+			wavesurfer.seekAndCenter(mid / wavesurfer.getDuration());
+			wavesurfer.zoom(currentZoom);
+		}
+
+
+
+		function Add(){
+			var params = {};
+			params.id = parcalar.length;
+			params.start = currentStart+silence;
+			params.end = currentStart + initLength;
+			params.drag = false;
+			params.resize = true;
+
+			wavesurfer.addRegion(params);
+
+			
+		}
+
+         wavesurfer.on('region-created',function(region){
             
-            var regionId = regionlist.length;
-
-            $(region.element).append("<div class='region-badge'>"+regionId+"</div>");
             
-            $(region.element).append("<button type='button' onclick='deleteregion("+regionId+")' class='close' aria-label='Close'><span aria-hidden='true'>&times;</span></button>");
+			region.update({attributes :{'id':parcalar.length}});
             
-            var row = $('#example-row').clone().attr("id","region-"+region.id).appendTo('#parca-listesi');
+			var row = $('#example-row').clone().attr("id","parca-"+region.id).appendTo('#parca-listesi');
+			row.show();
+			
+			region.row = row;
 
-            row.show();
-            row.find('span.region-badge').html(regionId);
+			parcalar.push(region);
 
-            region.row = row;
+			currentStart += initLength;
+			
+			
+			var date = new Date(null);
+            date.setSeconds(region.start);        
+            $(region.row).find('.baslangic').val(date.toISOString().substr(11, 8));
+            
+			date = new Date(null);
+			date.setSeconds(region.end);
+            $(region.row).find('.bitis').val(date.toISOString().substr(11, 8));
 
-            $('.close').click(function(event){
-                event.stopPropagation();
+			$(region.row).find(".btn-outline-danger").click(function(){
+                var rid = region.attributes["id"];
+                deleteregion(rid);
             });
+
+			$(region.row).find(".btn-info").click(function(){
+                var rid = region.attributes["id"];
+                zoomTo(rid);
+            });
+
+			
+
+			$(region.element).append("<div class='region-badge'>İlahi "+region.attributes["id"]+"</div>");
+
+			$(region.row).find('.isim').on("change",function(){
+				$(region.element).find('.region-badge').html($(this).val());
+			});
+
+			$(region.row).find('.isim').val("İlahi "+region.attributes["id"]);
+			
 
         });
 
@@ -169,30 +246,24 @@
             var date = new Date(null);
             date.setSeconds(region.start);        
             $(region.row).find('.baslangic').val(date.toISOString().substr(11, 8));
-            date.setSeconds(region.end);
+            
+			date = new Date(null);
+			date.setSeconds(region.end);
             $(region.row).find('.bitis').val(date.toISOString().substr(11, 8));
 
-            $(region.row).find(".btn-success").click(function(){
-                if(wavesurfer.isPlaying()){
-                    wavesurfer.pause();
-                } else {
-                    region.play();
-                }
-            });
 
-            $(region.row).find(".btn-outline-danger").click(function(){
-                var rid = region.attributes["id"]
-                deleteregion(rid);
-            });
+
+			currentStart = region.end > currentStart ? region.end : currentStart;
+
         });
 
 		function Save(){
 			
 			var validate = true;
+			$('.loading').css('display','block');
 			$('.isim:visible').each(function(){
 				if($(this).val() == ""){
 					alert("Parça isimleri boş olamaz.");
-					
 					validate = false;
 				}
 			});
@@ -200,21 +271,21 @@
 			if(!validate)
 				return;
 
-			var parcalar = [];	
+			var list = [];	
 
-			$.each(regionlist,function(key,region){
+			$.each(parcalar,function(key,region){
 				var parca = {};
 				var row = $(region.row);
 				
 				parca.isim = row.find('.isim').val();
 				parca.baslangic = region.start;
 				parca.bitis = region.end;
-				parcalar.push(parca);
+				list.push(parca);
 			});
 
 
 			var inputData = {};
-			inputData.parcalar = parcalar;
+			inputData.parcalar = list;
 			inputData.hamkayit_id = '{{$kayit->id}}';
 			inputData.hamkayit_isim = $('.kayit-isim').val();
 			inputData._token = "{{ csrf_token() }}";
@@ -222,9 +293,11 @@
 			
 
 			$.post( "{{route('hamkayit/parcala')}}",inputData, function( data ) {
-				var params = {};
-				params.ilahiler = data;
-				post_to_url("{!! route('hamkayit/goster') !!}",params,"post");
+				console.log(data);
+				$('.loading').css('display','none');
+				//var params = {};
+				//params.parcalar = data;
+				//post_to_url("{!! route('hamkayit/goster') !!}",params,"post");
       		});
 			
 		}
@@ -254,23 +327,15 @@
 
         function deleteregion(regionIndex){
             $("region[data-region-id="+regionIndex+"]").hide();
-            regionlist[regionIndex-1].row.hide();
-            regionlist[regionIndex-1].remove();
+            parcalar[regionIndex].row.hide();
+            parcalar[regionIndex].remove();
             if(Object.keys(wavesurfer.regions.list).length == 0)
-                regionlist = [];
+                parcalar = [];
         }
 
 
 
-        function zoomIn(){
-            currentZoom = Math.min(currentZoom + zoomSensitivity,50);
-            wavesurfer.zoom(currentZoom);
-        }
 
-        function zoomOut(){
-            currentZoom = Math.max(currentZoom - zoomSensitivity,minZoom);
-            wavesurfer.zoom(currentZoom);
-		}
 		
 
 		function post_to_url(path, params, method) {
@@ -301,22 +366,27 @@
 
 
 	<style>
+	
 		.region-badge {
-			border: 2px solid white;
-			border-radius: 40px;
-			width: 45px;
+			border: 2px dashed #ccc;
+			width: auto;
+			padding:0px 15px 0px 15px;
 			height: 45px;
-			background: #0D3F4D;
-			line-height: 40px;
+			background: inherit;
+			line-height: 45px;
 			text-align: center;
 			font-weight: bolder;
-			color: #9ABAC3;
-			left: 50%;
+			color: #444;
+			left: 0;
+			right:0;
 			position: absolute;
-			margin-left: -22.5px;
-			top: 50%;
-			margin-top: -22.5px;
-			font-size: 24px;
+			margin-left: auto;
+			margin-right: auto;
+			top: 0;
+			margin-top: auto;
+			font-size: 20px;
+			overflow:hidden;
+			
 		}
 
 		.region-close {}
@@ -324,5 +394,98 @@
 		.wavesurfer-handle {
 			border-left: 2px dashed #407382;
 		}
+
+		label{
+			font-size:12px;
+			margin-bottom:-10px !important;
+
+		}
+
+		input{
+			font-size:12px !important;
+		}
+
+		.pre-disabled{
+			background-color:#ddd;
+		}
+
+		.show{
+			position: absolute;
+			width: 100px;
+			height: 50px;
+			margin-top: -35px;
+			right: 0;
+			margin-right: -35px;
+		}
+		.loading{
+			background: #222;
+			position:absolute;
+			top:0;
+			left:0;
+			width:100%;
+			height:100%;
+			background-color:rgba(0, 0, 0, 0.5);
+			z-index:100;
+			color:white;
+			text-align center;
+			display:none;
+		}
+
+		.loading span {
+			display: inline-block;
+			vertical-align: middle;
+			width: .6em;
+			height: .6em;
+			margin: .19em;
+			background: #007DB6;
+			border-radius: .6em;
+			animation: loading 1s infinite alternate;
+			}
+
+			.loading span:nth-of-type(2) {
+			background: #008FB2;
+			animation-delay: 0.2s;
+			}
+			.loading span:nth-of-type(3) {
+			background: #009B9E;
+			animation-delay: 0.4s;
+			}
+			.loading span:nth-of-type(4) {
+			background: #00A77D;
+			animation-delay: 0.6s;
+			}
+			.loading span:nth-of-type(5) {
+			background: #00B247;
+			animation-delay: 0.8s;
+			}
+			.loading span:nth-of-type(6) {
+			background: #5AB027;
+			animation-delay: 1.0s;
+			}
+			.loading span:nth-of-type(7) {
+			background: #A0B61E;
+			animation-delay: 1.2s;
+			}
+
+			.box{
+				position:absolute;
+				width: 20%;
+				height: 20%;
+				left:50%;
+				margin-left:-10%;
+				top:50%;
+				margin-top:-10%;
+				text-align:center;
+			}
+
+	
+			@keyframes loading {
+			0% {
+				opacity: 0;
+			}
+			100% {
+				opacity: 1;
+			}
+			}
 	</style>
 	@endsection

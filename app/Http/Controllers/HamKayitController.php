@@ -73,6 +73,8 @@ class HamKayitController extends Controller
         $media = FFMpeg::open($kayit->dosya);
         
         $ilahiler = array();
+        
+        //print_r($request);
 
         foreach($request->parcalar as $parca){
             $start = intval($parca["baslangic"]);

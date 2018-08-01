@@ -13,7 +13,18 @@
 
     </head>
     <body id="page-top" class="index">
-    
+        <div class="loading" style="display:none">
+		<div class='box'>
+        <h2>Parçalar Hazırlanıyor</h2>
+		<span></span>
+		<span></span>
+		<span></span>
+		<span></span>
+		<span></span>
+		<span></span>
+		<span></span>
+        </div>
+	    </div>
         @include('layouts.partials._navigation')
         
         @include('layouts.partials._warning')
@@ -23,6 +34,6 @@
         @include('layouts.partials._footer')
     
         @yield('footer')
-        
+
     </body>
 </html>
